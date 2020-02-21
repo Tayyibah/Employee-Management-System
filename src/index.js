@@ -3,16 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-//import { allReducers} from './reducer/index';
 import { Provider } from 'react-redux';
- import loggedReducer from './reducer/isLogged';
- import counterReducer from './reducer/counter';
- import {createStore,combineReducers} from 'redux';
+import loggedReducer from './reducer/isLogged';
+import counterReducer from './reducer/counter';
+import { createStore, combineReducers } from 'redux';
 
-const allReducers=combineReducers({
-    isLogged:loggedReducer,
-    counter:counterReducer
+const allReducers = combineReducers({
+    isLogged: loggedReducer,
+    counter: counterReducer
 });
+const myStore = createStore(allReducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+ReactDOM.render(
+    <Provider store={myStore}>
+        <App />
+    </Provider>
+    , document.getElementById('root'));
+serviceWorker.unregister();
 
 // //Store
 
@@ -45,18 +52,10 @@ const allReducers=combineReducers({
 // //dispatch
 // store.dispatch(increment());
 // store.dispatch(decrement());
-const myStore=createStore(allReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 //store.subscribe(()=>console.log(store.getState()));
 //store.dispatch("SIGNIN");
 //store.dispatch("INCREMENT");
 
-ReactDOM.render(
-<Provider store={myStore}>
-<App />
-</Provider>
-, document.getElementById('root'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
